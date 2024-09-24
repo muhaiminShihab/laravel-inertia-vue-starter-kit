@@ -1,11 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { inject, provide, ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 
 const darkMode = ref(false);
 const isProfileDropdownOpen = ref(false);
 const isNotificationDropdownOpen = ref(false);
-
+const sidebarToggle = inject("sidebarToggle");
 
 </script>
 
@@ -19,7 +19,7 @@ const isNotificationDropdownOpen = ref(false);
             <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
                 <!-- Hamburger Toggle BTN -->
                 <button
-                    class="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark lg:hidden"
+                    class="z-99999 block rounded-sm border border-stroke bg-white p-1.5 shadow-sm dark:border-strokedark dark:bg-boxdark"
                     @click="sidebarToggle = !sidebarToggle"
                 >
                     <span class="relative block h-5.5 w-5.5 cursor-pointer">
@@ -113,13 +113,8 @@ const isNotificationDropdownOpen = ref(false);
                         <a
                             class="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
                             href="#"
-                            @click.prevent="
-                                dropdownOpen = !dropdownOpen;
-                                notifying = false;
-                            "
                         >
                             <span
-                                :class="!notifying && 'hidden'"
                                 class="absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1"
                             >
                                 <span
@@ -257,7 +252,7 @@ const isNotificationDropdownOpen = ref(false);
                         </span>
 
                         <svg
-                            :class="dropdownOpen && 'rotate-180'"
+                            :class="isProfileDropdownOpen && 'rotate-180'"
                             class="hidden fill-current sm:block"
                             width="12"
                             height="8"

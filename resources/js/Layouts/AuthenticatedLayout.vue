@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from "vue";
+import { provide, ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 import Sidebar from "../Components/Layouts/Sidebar.vue";
 import Header from "../Components/Layouts/Header.vue";
+
+const sidebarToggle = ref(false);
+provide("sidebarToggle", sidebarToggle);
 </script>
 
 <template>

@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 
-const sidebarToggle = ref(false);
+const sidebarToggle = inject("sidebarToggle");
 const isProductMenuOpen = ref(false);
 const isSaleMenuOpen = ref(false);
 const isReportMenuOpen = ref(false);
