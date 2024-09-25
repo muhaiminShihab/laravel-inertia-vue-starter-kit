@@ -3,9 +3,11 @@ import { inject, ref } from "vue";
 import { Link } from "@inertiajs/vue3";
 
 const sidebarToggle = inject("sidebarToggle");
-const isProductMenuOpen = ref(false);
-const isSaleMenuOpen = ref(false);
-const isReportMenuOpen = ref(false);
+
+const openMenu = ref(null);
+const toggleMenu = (menu) => {
+    openMenu.value = openMenu.value === menu ? null : menu;
+};
 </script>
 
 <template>
@@ -47,10 +49,7 @@ const isReportMenuOpen = ref(false);
             class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear"
         >
             <!-- Sidebar Menu -->
-            <nav
-                class="mt-5 px-4 py-4 lg:mt-9 lg:px-6"
-                x-data="{selected: $persist('Dashboard')}"
-            >
+            <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6">
                 <!-- Menu Group -->
                 <div>
                     <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">
@@ -99,7 +98,7 @@ const isReportMenuOpen = ref(false);
                         <li>
                             <div
                                 class="cursor-pointer group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                                @click="isProductMenuOpen = !isProductMenuOpen"
+                                @click="toggleMenu('product')"
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +118,7 @@ const isReportMenuOpen = ref(false);
                                 <svg
                                     class="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
                                     :class="{
-                                        'rotate-180': isProductMenuOpen,
+                                        'rotate-180': openMenu === 'product',
                                     }"
                                     width="20"
                                     height="20"
@@ -140,8 +139,8 @@ const isReportMenuOpen = ref(false);
                             <div
                                 class="translate transform overflow-hidden"
                                 :class="{
-                                    block: isProductMenuOpen,
-                                    hidden: !isProductMenuOpen,
+                                    block: openMenu === 'product',
+                                    hidden: openMenu !== 'product',
                                 }"
                             >
                                 <ul class="mb-3 mt-4 flex flex-col gap-2 pl-6">
@@ -182,164 +181,6 @@ const isReportMenuOpen = ref(false);
                             <!-- Dropdown Menu End -->
                         </li>
                         <!-- Menu Item Product -->
-
-                        <!-- Menu Item Sale -->
-                        <li>
-                            <div
-                                class="cursor-pointer group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                                @click="isSaleMenuOpen = !isSaleMenuOpen"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    fill="currentColor"
-                                    class="bi bi-receipt"
-                                    viewBox="0 0 18 18"
-                                >
-                                    <path
-                                        d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"
-                                    />
-                                    <path
-                                        d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"
-                                    />
-                                </svg>
-
-                                Sale
-
-                                <svg
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
-                                    :class="{
-                                        'rotate-180': isSaleMenuOpen,
-                                    }"
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 20 20"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
-                                        d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                                        fill=""
-                                    />
-                                </svg>
-                            </div>
-
-                            <!-- Dropdown Menu Start -->
-                            <div
-                                class="translate transform overflow-hidden"
-                                :class="{
-                                    block: isSaleMenuOpen,
-                                    hidden: !isSaleMenuOpen,
-                                }"
-                            >
-                                <ul class="mb-3 mt-4 flex flex-col gap-2 pl-6">
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Sale List
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            POS
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Dropdown Menu End -->
-                        </li>
-                        <!-- Menu Item Sale -->
-
-                        <!-- Menu Item Report -->
-                        <li>
-                            <div
-                                class="cursor-pointer group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
-                                @click="isReportMenuOpen = !isReportMenuOpen"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    fill="currentColor"
-                                    class="bi bi-receipt"
-                                    viewBox="0 0 18 18"
-                                >
-                                    <path
-                                        d="M1.92.506a.5.5 0 0 1 .434.14L3 1.293l.646-.647a.5.5 0 0 1 .708 0L5 1.293l.646-.647a.5.5 0 0 1 .708 0L7 1.293l.646-.647a.5.5 0 0 1 .708 0L9 1.293l.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .801.13l.5 1A.5.5 0 0 1 15 2v12a.5.5 0 0 1-.053.224l-.5 1a.5.5 0 0 1-.8.13L13 14.707l-.646.647a.5.5 0 0 1-.708 0L11 14.707l-.646.647a.5.5 0 0 1-.708 0L9 14.707l-.646.647a.5.5 0 0 1-.708 0L7 14.707l-.646.647a.5.5 0 0 1-.708 0L5 14.707l-.646.647a.5.5 0 0 1-.708 0L3 14.707l-.646.647a.5.5 0 0 1-.801-.13l-.5-1A.5.5 0 0 1 1 14V2a.5.5 0 0 1 .053-.224l.5-1a.5.5 0 0 1 .367-.27m.217 1.338L2 2.118v11.764l.137.274.51-.51a.5.5 0 0 1 .707 0l.646.647.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.646.646.646-.646a.5.5 0 0 1 .708 0l.509.509.137-.274V2.118l-.137-.274-.51.51a.5.5 0 0 1-.707 0L12 1.707l-.646.647a.5.5 0 0 1-.708 0L10 1.707l-.646.647a.5.5 0 0 1-.708 0L8 1.707l-.646.647a.5.5 0 0 1-.708 0L6 1.707l-.646.647a.5.5 0 0 1-.708 0L4 1.707l-.646.647a.5.5 0 0 1-.708 0z"
-                                    />
-                                    <path
-                                        d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m8-6a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5"
-                                    />
-                                </svg>
-
-                                Reports
-
-                                <svg
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
-                                    :class="{
-                                        'rotate-180': isReportMenuOpen,
-                                    }"
-                                    width="20"
-                                    height="20"
-                                    viewBox="0 0 20 20"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
-                                        d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                                        fill=""
-                                    />
-                                </svg>
-                            </div>
-
-                            <!-- Dropdown Menu Start -->
-                            <div
-                                class="translate transform overflow-hidden"
-                                :class="{
-                                    block: isReportMenuOpen,
-                                    hidden: !isReportMenuOpen,
-                                }"
-                            >
-                                <ul class="mb-3 mt-4 flex flex-col gap-2 pl-6">
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Today Report
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Sales Report
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Stock Report
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!-- Dropdown Menu End -->
-                        </li>
-                        <!-- Menu Item Report -->
                     </ul>
                 </div>
             </nav>
