@@ -1,6 +1,6 @@
 <script setup>
-import { inject, ref } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { inject, ref, watch } from "vue";
+import { Link, usePage } from "@inertiajs/vue3";
 
 const sidebarToggle = inject("sidebarToggle");
 
@@ -8,7 +8,19 @@ const openMenu = ref(null);
 const toggleMenu = (menu) => {
     openMenu.value = openMenu.value === menu ? null : menu;
 };
+
+const productRoutes = ["products"];
+if (productRoutes.includes(route().current())) {
+    toggleMenu("product");
+    openMenu.value = "product";
+}
 </script>
+
+<style>
+.active {
+    @apply bg-graydark dark:bg-meta-4;
+}
+</style>
 
 <template>
     <aside
@@ -60,6 +72,9 @@ const toggleMenu = (menu) => {
                         <!-- Menu Item Dashboard -->
                         <li>
                             <Link
+                                :class="{
+                                    active: route().current('dashboard'),
+                                }"
                                 class="group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                                 :href="route('dashboard')"
                             >
@@ -97,6 +112,9 @@ const toggleMenu = (menu) => {
                         <!-- Menu Item Product -->
                         <li>
                             <div
+                                :class="{
+                                    active: openMenu === 'product',
+                                }"
                                 class="cursor-pointer group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
                                 @click="toggleMenu('product')"
                             >
@@ -147,7 +165,11 @@ const toggleMenu = (menu) => {
                                     <li>
                                         <Link
                                             class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
+                                            :href="route('products')"
+                                            :class="{
+                                                'text-white':
+                                                    route().current('products'),
+                                            }"
                                         >
                                             Product List
                                         </Link>
@@ -160,22 +182,6 @@ const toggleMenu = (menu) => {
                                             Category List
                                         </Link>
                                     </li>
-                                    <!-- <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Brand List
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            class="group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white"
-                                            href="#"
-                                        >
-                                            Barcodes
-                                        </Link>
-                                    </li> -->
                                 </ul>
                             </div>
                             <!-- Dropdown Menu End -->
